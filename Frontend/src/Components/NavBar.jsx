@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { T } from "../theme";
 import logo from "../assets/logo.png";
 import logoname from "../assets/logoname.png";
@@ -7,6 +8,17 @@ import logoname from "../assets/logoname.png";
 export default function NavBar() {
 
   const [hov, setHov] = useState(null);
+  const { currentUser, userProfile, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   const navLink = (key, label, to) => (
     <Link
@@ -48,7 +60,7 @@ export default function NavBar() {
         justifyContent: "space-between"
       }}>
         
-        {/* ✅ UPDATED BRAND (LOGO ADDED) */}
+        {/* BRAND (LOGO) */}
         <Link to="/" style={{
           textDecoration: "none",
           display: "flex",
@@ -78,23 +90,61 @@ export default function NavBar() {
         {/* Links */}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
           {navLink("home", "Home", "/")}
-          {navLink("login", "Login", "/login")}
+          
+          {currentUser && userProfile ? (
+            <>
+              {/* Authenticated User Links */}
+              {userProfile.role === "student" && navLink("dashboard", "My Dashboard", "/student")}
+              {userProfile.role === "teacher" && navLink("dashboard", "My Dashboard", "/teacher")}
+              
+              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <span style={{ fontSize: 13, color: T.textMuted }}>
+                  {userProfile.name}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: T.white,
+                    textDecoration: "none",
+                    background: "#ff6b6b",
+                    padding: "9px 22px",
+                    borderRadius: 24,
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.2s"
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = "#ff5252"}
+                  onMouseLeave={e => e.currentTarget.style.background = "#ff6b6b"}
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Guest Links */}
+              {navLink("login", "Login", "/login")}
 
-          <Link to="/signup"
-            style={{
-              fontSize: 13,
-              fontWeight: 700,
-              color: T.white,
-              textDecoration: "none",
-              background: T.primary,
-              padding: "9px 22px",
-              borderRadius: 24
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = T.primaryDark}
-            onMouseLeave={e => e.currentTarget.style.background = T.primary}
-          >
-            Sign Up
-          </Link>
+              <Link to="/signup"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: T.white,
+                  textDecoration: "none",
+                  background: T.primary,
+                  padding: "9px 22px",
+                  borderRadius: 24,
+                  transition: "all 0.2s"
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = T.primaryDark}
+                onMouseLeave={e => e.currentTarget.style.background = T.primary}
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

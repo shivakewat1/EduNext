@@ -60,18 +60,21 @@ function FeatureCard({ icon: Icon, title, desc }) {
   const [hov, setHov] = useState(false);
   return (
     <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
-      background: T.white, borderRadius: 16, padding: "28px 24px",
+      background: hov ? T.gradientSubtle : T.white,
+      borderRadius: 16, padding: "28px 24px",
       border: `1.5px solid ${hov ? T.primary : T.border}`,
-      boxShadow: hov ? T.shadowHover : T.shadow,
+      boxShadow: hov ? T.shadowHover : T.shadowCard,
       transform: hov ? "translateY(-4px)" : "none",
       transition: "all 0.25s", cursor: "default"
     }}>
       <div style={{
-        width: 54, height: 54, background: T.primaryLight, borderRadius: 14,
+        width: 54, height: 54,
+        background: hov ? T.gradientCard : T.primaryLight,
+        borderRadius: 14,
         display: "flex", alignItems: "center", justifyContent: "center",
-        marginBottom: 18
+        marginBottom: 18, transition: "background 0.25s"
       }}>
-        <Icon size={26} color={T.primary} strokeWidth={1.8} />
+        <Icon size={26} color={hov ? "#fff" : T.primary} strokeWidth={1.8} />
       </div>
       <p style={{ fontWeight: 700, color: T.text, fontSize: 15, margin: "0 0 8px" }}>{title}</p>
       <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.75, margin: 0 }}>{desc}</p>
@@ -108,13 +111,13 @@ function TestimonialCard({ name, role, text, icon: Icon }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div style={{ background: T.bg, minHeight: "100vh", fontFamily: "'Segoe UI', sans-serif", color: T.text }}>
 
       {/* ── HERO ── */}
       <section style={{
-        background: `linear-gradient(135deg, ${T.primary} 0%, ${T.accent} 100%)`,
+        background: T.gradientHero,
         padding: `90px ${T.px} 80px`, color: "#fff", position: "relative", overflow: "hidden"
       }}>
         {/* Decorative circles */}
@@ -234,7 +237,7 @@ export default function Home() {
           {/* Visual */}
           <div style={{ flex: 1, minWidth: 260, position: "relative" }}>
             <div style={{
-              background: `linear-gradient(135deg, ${T.primary}, ${T.accent})`,
+              background: `linear-gradient(135deg, ${T.primary}, ${T.primaryMid})`,
               borderRadius: 20, height: 320,
               display: "flex", alignItems: "center", justifyContent: "center"
             }}>
@@ -302,11 +305,12 @@ export default function Home() {
               <div key={s.num} style={{ textAlign: "center", padding: "0 16px" }}>
                 <div style={{
                   width: 64, height: 64, borderRadius: "50%",
-                  background: i % 2 === 0 ? T.primary : T.primaryLight,
+                  background: i % 2 === 0 ? T.gradientCard : T.gradientAccent,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  margin: "0 auto 20px", boxShadow: T.shadow
+                  margin: "0 auto 20px",
+                  boxShadow: i % 2 === 0 ? T.shadowHover : "0 8px 24px rgba(6,182,212,0.25)"
                 }}>
-                  <s.icon size={28} color={i % 2 === 0 ? "#fff" : T.primary} strokeWidth={1.8} />
+                  <s.icon size={28} color="#fff" strokeWidth={1.8} />
                 </div>
                 <p style={{ fontWeight: 700, fontSize: 16, color: T.text, margin: "0 0 10px" }}>{s.title}</p>
                 <p style={{ fontSize: 13, color: T.textMuted, lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
@@ -347,7 +351,7 @@ export default function Home() {
 
       {/* ── CTA BANNER ── */}
       <section style={{
-        background: `linear-gradient(135deg, ${T.primary} 0%, ${T.accent} 100%)`,
+        background: T.gradientHero,
         padding: `80px ${T.px}`, color: "#fff", position: "relative", overflow: "hidden"
       }}>
         <div style={{ position: "absolute", top: -40, right: 80, width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,0.06)" }} />
@@ -374,7 +378,7 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ background: T.primaryDark, color: "rgba(255,255,255,0.65)", padding: `56px ${T.px} 28px` }}>
+      <footer style={{ background: T.gradientDark, color: "rgba(255,255,255,0.65)", padding: `56px ${T.px} 28px` }}>
         <div style={{
           maxWidth: T.maxWidth, margin: "0 auto",
           display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1.5fr", gap: 40, marginBottom: 40,
