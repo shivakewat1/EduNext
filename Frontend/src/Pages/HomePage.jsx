@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { T } from "../theme";
+
+import logoname from "../assets/logoname.png";
 import {
   ClipboardList, BookOpen, BarChart2, ShieldCheck,
   Timer, Globe, Trophy, Star, CheckCircle, Users, GraduationCap, Zap,
@@ -124,7 +126,7 @@ export default function HomePage() {
         <div style={{ position: "absolute", top: -60, right: -60, width: 300, height: 300, borderRadius: "50%", background: "rgba(255,255,255,0.05)" }} />
         <div style={{ position: "absolute", bottom: -80, left: "40%", width: 200, height: 200, borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
 
-        <div style={{ maxWidth: T.maxWidth, margin: "0 auto", display: "flex", alignItems: "center", gap: 64, flexWrap: "wrap", position: "relative" }}>
+        <div style={{ maxWidth: T.maxWidth, margin: "0 auto", display: "flex", alignItems: "center", gap: 64, flexWrap: "wrap", position: "relative" }} className="hero-grid">
           {/* Left */}
           <div style={{ flex: 1, minWidth: 300 }}>
             <span style={{
@@ -176,7 +178,7 @@ export default function HomePage() {
           </div>
 
           {/* Right — visual card stack */}
-          <div style={{ flex: 1, minWidth: 260, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ flex: 1, minWidth: 260, display: "flex", justifyContent: "center", alignItems: "center" }} className="hero-visual">
             <div style={{ position: "relative", width: 300, height: 320 }}>
               {/* Back card */}
               <div style={{
@@ -383,14 +385,11 @@ export default function HomePage() {
           maxWidth: T.maxWidth, margin: "0 auto",
           display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1.5fr", gap: 40, marginBottom: 40,
           flexWrap: "wrap"
-        }}>
+        }} className="footer-grid">
           {/* Brand */}
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-              <div style={{ width: 32, height: 32, background: T.accent, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <GraduationCap size={18} color="#fff" strokeWidth={2} />
-              </div>
-              <span style={{ fontWeight: 800, color: "#fff", fontSize: 16 }}>EduConnect</span>
+              <img src={logoname} alt="EduConnect" style={{ height: 22, width: "auto", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
             </div>
             <p style={{ fontSize: 13, lineHeight: 1.75, margin: "0 0 20px", maxWidth: 220 }}>
               Modern learning management platform for teachers and students worldwide.
@@ -454,7 +453,7 @@ export default function HomePage() {
           display: "flex", justifyContent: "space-between", alignItems: "center",
           flexWrap: "wrap", gap: 12, fontSize: 12
         }}>
-          <span>© 2026 EduConnect. All rights reserved.</span>
+          <span>© 2026 EduNext. All rights reserved.</span>
           <div style={{ display: "flex", gap: 20 }}>
             {["Privacy Policy", "Terms of Service", "Contact"].map(l => (
               <span key={l} style={{ cursor: "pointer" }}

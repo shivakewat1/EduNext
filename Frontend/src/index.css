@@ -1,1 +1,112 @@
 @import "tailwindcss";
+
+/* ── Global resets ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+
+/* ── Responsive utilities ──────────────────────────────────────────────────── */
+
+/* NavBar */
+@media (max-width: 640px) {
+  .desktop-nav { display: none !important; }
+  .hamburger   { display: flex !important; }
+}
+
+/* Login / Signup split layout */
+@media (max-width: 768px) {
+  .login-left  { display: none !important; }
+  .signup-left { display: none !important; }
+}
+
+/* Hero section two-column → single column */
+@media (max-width: 768px) {
+  .hero-grid {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+  .hero-visual { display: none !important; }
+}
+
+/* Footer grid → 2 cols on tablet, 1 col on mobile */
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 32px !important;
+  }
+}
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Dashboard two-column grids → single column */
+@media (max-width: 900px) {
+  .two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Stats row → 2 cols on small screens */
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Overflow tables on mobile */
+@media (max-width: 640px) {
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* Tab bars — scrollable on mobile */
+.tab-bar {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+/* Cards grid responsive */
+@media (max-width: 560px) {
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Padding reduction on mobile */
+@media (max-width: 640px) {
+  .page-pad { padding-left: 16px !important; padding-right: 16px !important; }
+  .section-pad { padding: 48px 16px !important; }
+}
+
+/* Create tab two-col → single col */
+@media (max-width: 860px) {
+  .create-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Overview two-col → single col */
+@media (max-width: 860px) {
+  .overview-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Marks/Submissions table font size */
+@media (max-width: 640px) {
+  .data-table { font-size: 12px !important; }
+  .data-table td, .data-table th { padding: 10px 12px !important; }
+}
+
+/* Login/Signup form padding on mobile */
+@media (max-width: 768px) {
+  .auth-form-wrap {
+    padding: 32px 20px !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* Hero header stats on mobile */
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr 1fr !important; }
+}
