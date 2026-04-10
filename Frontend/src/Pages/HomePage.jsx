@@ -111,6 +111,35 @@ function TestimonialCard({ name, role, text, icon: Icon }) {
   );
 }
 
+// ── Newsletter Form ───────────────────────────────────────────────────────────
+function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [done, setDone] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setDone(true);
+    setEmail("");
+    setTimeout(() => setDone(false), 4000);
+  }
+
+  return done ? (
+    <div style={{ background: "rgba(255,255,255,0.12)", borderRadius: 10, padding: "11px 14px", fontSize: 12, color: "#fff", display: "flex", alignItems: "center", gap: 8 }}>
+      ✓ Thanks! You're subscribed.
+    </div>
+  ) : (
+    <form onSubmit={handleSubmit} style={{ display: "flex", borderRadius: 10, overflow: "hidden", border: "1px solid rgba(255,255,255,0.15)" }}>
+      <input
+        type="email" required value={email} onChange={e => setEmail(e.target.value)}
+        placeholder="Your email address"
+        style={{ padding: "10px 14px", fontSize: 12, border: "none", outline: "none", flex: 1, background: "rgba(255,255,255,0.08)", color: "#fff" }}
+      />
+      <button type="submit" style={{ background: T.accent, color: "#fff", border: "none", padding: "10px 16px", cursor: "pointer", fontSize: 14, fontWeight: 700 }}>→</button>
+    </form>
+  );
+}
+
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -395,13 +424,21 @@ export default function HomePage() {
               Modern learning management platform for teachers and students worldwide.
             </p>
             <div style={{ display: "flex", gap: 10 }}>
-              {[Globe, Share2, Users].map((Icon, i) => (
-                <div key={i} style={{
+              {[
+                { Icon: Globe,  href: "https://github.com/shivakewat1/EduNext" },
+                { Icon: Share2, href: "https://github.com/shivakewat1/EduNext" },
+                { Icon: Users,  href: "/signup" },
+              ].map(({ Icon, href }, i) => (
+                <a key={i} href={href} target={href.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" style={{
                   width: 34, height: 34, background: "rgba(255,255,255,0.1)", borderRadius: 8,
-                  display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer"
-                }}>
+                  display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+                  textDecoration: "none", transition: "background 0.2s"
+                }}
+                  onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.2)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.1)"}
+                >
                   <Icon size={16} color="rgba(255,255,255,0.7)" strokeWidth={1.8} />
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -409,22 +446,31 @@ export default function HomePage() {
           {/* Navigate */}
           <div>
             <p style={{ fontWeight: 700, color: "#fff", fontSize: 13, margin: "0 0 16px", textTransform: "uppercase", letterSpacing: "0.06em" }}>Navigate</p>
-            {["Home", "Login", "Sign Up"].map(l => (
-              <p key={l} style={{ fontSize: 13, margin: "0 0 10px", cursor: "pointer", transition: "color 0.2s" }}
+            {[
+              { label: "Home",     to: "/" },
+              { label: "Login",    to: "/login" },
+              { label: "Sign Up",  to: "/signup" },
+            ].map(l => (
+              <Link key={l.label} to={l.to} style={{ display: "block", fontSize: 13, margin: "0 0 10px", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.color = "#fff"}
                 onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}
-              >{l}</p>
+              >{l.label}</Link>
             ))}
           </div>
 
           {/* Popular */}
           <div>
-            <p style={{ fontWeight: 700, color: "#fff", fontSize: 13, margin: "0 0 16px", textTransform: "uppercase", letterSpacing: "0.06em" }}>Popular Links</p>
-            {["Dashboard", "Assignments", "Courses", "Assessment"].map(l => (
-              <p key={l} style={{ fontSize: 13, margin: "0 0 10px", cursor: "pointer" }}
+            <p style={{ fontWeight: 700, color: "#fff", fontSize: 13, margin: "0 0 16px", textTransform: "uppercase", letterSpacing: "0.06em" }}>Quick Links</p>
+            {[
+              { label: "Student Dashboard", to: "/student" },
+              { label: "Teacher Dashboard", to: "/teacher" },
+              { label: "Sign Up Free",      to: "/signup" },
+              { label: "Log In",            to: "/login" },
+            ].map(l => (
+              <Link key={l.label} to={l.to} style={{ display: "block", fontSize: 13, margin: "0 0 10px", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.color = "#fff"}
                 onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}
-              >{l}</p>
+              >{l.label}</Link>
             ))}
           </div>
 
@@ -432,17 +478,7 @@ export default function HomePage() {
           <div>
             <p style={{ fontWeight: 700, color: "#fff", fontSize: 13, margin: "0 0 16px", textTransform: "uppercase", letterSpacing: "0.06em" }}>Stay Updated</p>
             <p style={{ fontSize: 12, marginBottom: 14, lineHeight: 1.6 }}>Subscribe to get the latest updates and news.</p>
-            <div style={{ display: "flex", borderRadius: 10, overflow: "hidden", border: "1px solid rgba(255,255,255,0.15)" }}>
-              <input placeholder="Your email address" style={{
-                padding: "10px 14px", fontSize: 12, border: "none",
-                outline: "none", flex: 1, background: "rgba(255,255,255,0.08)",
-                color: "#fff"
-              }} />
-              <button style={{
-                background: T.accent, color: "#fff", border: "none",
-                padding: "10px 16px", cursor: "pointer", fontSize: 16, fontWeight: 700
-              }}>→</button>
-            </div>
+            <NewsletterForm />
           </div>
         </div>
 
@@ -453,13 +489,17 @@ export default function HomePage() {
           display: "flex", justifyContent: "space-between", alignItems: "center",
           flexWrap: "wrap", gap: 12, fontSize: 12
         }}>
-          <span>© 2026 EduNext. All rights reserved.</span>
+          <span>© 2026 EduConnect. All rights reserved.</span>
           <div style={{ display: "flex", gap: 20 }}>
-            {["Privacy Policy", "Terms of Service", "Contact"].map(l => (
-              <span key={l} style={{ cursor: "pointer" }}
+            {[
+              { label: "Privacy Policy",   to: "/" },
+              { label: "Terms of Service", to: "/" },
+              { label: "Contact",          to: "/" },
+            ].map(l => (
+              <Link key={l.label} to={l.to} style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none", cursor: "pointer", transition: "color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.color = "#fff"}
                 onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}
-              >{l}</span>
+              >{l.label}</Link>
             ))}
           </div>
         </div>
